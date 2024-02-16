@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCard,Integer> {
     ShoppingCard findByProductAndUser(Product product, User user);
+    ShoppingCard findByUserIdAndCartId(long userId, int cartItemId);
     ShoppingCard findByUser_IdAndProduct_ProductId(long userId, long productId);
     List<ShoppingCard>findByUser_Id(long userId);
 }

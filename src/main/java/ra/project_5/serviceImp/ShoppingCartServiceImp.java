@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ra.project_5.advice.exception.CustomException;
 import ra.project_5.mapper.ShoppingMapper;
 import ra.project_5.model.dto.request.ShoppingCartRequest;
+import ra.project_5.model.dto.request.ShoppingCartUpdateQuantityRequest;
 import ra.project_5.model.dto.response.ShoppingCartResponse;
 import ra.project_5.model.entity.Product;
 import ra.project_5.model.entity.ShoppingCard;
@@ -81,6 +82,18 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         return shoppingCardList.stream()
                 .map(shoppingCard -> shoppingMapper.mapperEntityToResponse(shoppingCard))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ShoppingCartResponse update(long userId, int cartItemId, ShoppingCartUpdateQuantityRequest cartRequest) {
+        try {
+            ShoppingCard shoppingCard = shoppingCartRepository.findByUserIdAndCartId(userId,cartItemId);
+            shoppingCard.setQuantity(cartRequest.getQuantity());
+            shoppingCartRepository.save(shoppingCard);
+            return shoppingMapper.mapperEntityToResponse(shoppingCard);
+        } catch (Exception e){
+            throw  new CustomException(e.getMessage());
+        }
     }
 
     public ShoppingCard shoppingCard(long userId){

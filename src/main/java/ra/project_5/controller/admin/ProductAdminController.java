@@ -35,6 +35,7 @@ public class ProductAdminController {
         if (productResponse != null) {
             baseResponse.setStatusCode(HttpStatus.CREATED.value()); // Sử dụng mã trạng thái HTTP 201 Created
             baseResponse.setMessage("Thêm mới sản phẩm thành công!");
+            System.out.println(productService.findById(productResponse.getProductId()).getSku());
             baseResponse.setData(productResponse);
             return new ResponseEntity<>(baseResponse, HttpStatus.CREATED);
         } else {

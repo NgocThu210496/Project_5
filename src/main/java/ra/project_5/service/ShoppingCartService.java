@@ -1,6 +1,7 @@
 package ra.project_5.service;
 
 import ra.project_5.model.dto.request.ShoppingCartRequest;
+import ra.project_5.model.dto.request.ShoppingCartUpdateQuantityRequest;
 import ra.project_5.model.dto.response.ShoppingCartResponse;
 import ra.project_5.model.entity.ShoppingCard;
 
@@ -12,4 +13,5 @@ public interface ShoppingCartService {
     ShoppingCartResponse addToCart(long userId, ShoppingCartRequest shoppingCartRequest);
     ShoppingCard findByUser_IdAndProduct_ProductId(long userId, long productId);
     List<ShoppingCartResponse>listProductInCart(long userId);
+    ShoppingCartResponse update(long userId, int cartItemId, ShoppingCartUpdateQuantityRequest cartRequest);
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ra.project_5.model.dto.request.ShoppingCartRequest;
+import ra.project_5.model.dto.request.ShoppingCartUpdateQuantityRequest;
 import ra.project_5.model.dto.response.BaseResponse;
 import ra.project_5.model.dto.response.ShoppingCartResponse;
 import ra.project_5.service.ShoppingCartService;
@@ -19,6 +20,7 @@ public class UserControllerShoppingCart {
     private ShoppingCartService shoppingCartService;
     @Autowired
     private UserService userService;
+
     @PostMapping("shopping-cart/{userId}/add")
     public ResponseEntity<?>addNewProductInCart(
             @PathVariable long userId,
@@ -52,5 +54,19 @@ public class UserControllerShoppingCart {
         successResponse.setData(responseList);
         // Trả về ResponseEntity với danh sách sản phẩm hoặc mã trạng thái NOT FOUND nếu có lỗi khác
         return ResponseEntity.ok(successResponse);
+    }
+
+    @PutMapping("shopping-cart/{userId}/update/{cartItemId}")
+    public ResponseEntity<?> updateQuantity(
+            @PathVariable long userId,
+            @PathVariable int cartItemId,
+            @RequestBody ShoppingCartUpdateQuantityRequest cartRequest){
+        BaseResponse baseResponse = new BaseResponse();
+        ShoppingCartResponse response = shoppingCartService.update(userId,cartItemId,cartRequest);
+        baseResponse.setStatusCode(200);
+        baseResponse.setMessage("Thay đổi số lượng sản phẩm");
+        baseResponse.setData(response);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+
     }
 }
