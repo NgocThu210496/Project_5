@@ -47,7 +47,7 @@ public class UserControllerAccount {
             BaseResponse baseResponse = new BaseResponse();
             UserResponse userResponse = userService.updateInForUser(userId,userUpdate);
             baseResponse.setStatusCode(200);
-            baseResponse.setMessage("Cập nhập thông tin người dùng");
+            baseResponse.setMessage("Cập nhập thông tin người dùng thành công! " + userId);
             baseResponse.setData(userResponse);
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);
         } catch (Exception e){
@@ -60,7 +60,7 @@ public class UserControllerAccount {
             @PathVariable long userId,
             @RequestBody ChangePasswordRequest changePasswordRequest) {
         userService.changePassword(userId,changePasswordRequest);
-        return ResponseEntity.ok("Đổi mật khẩu thành công");
+        return ResponseEntity.ok("Đổi mật khẩu thành công!");
     }
 
     @PostMapping("account/{userId}/address")
@@ -75,7 +75,7 @@ public class UserControllerAccount {
         Set<AddressResponse> addressList = addressService.findListByUserId(userId);
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatusCode(200);
-        baseResponse.setMessage("Danh sách địa chỉ");
+        baseResponse.setMessage("Danh sách địa chỉ của userId " +userId);
         baseResponse.setData(addressList);
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }

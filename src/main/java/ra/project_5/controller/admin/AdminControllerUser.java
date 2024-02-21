@@ -119,4 +119,16 @@ public class AdminControllerUser {
         baseResponse.setStatusCode(200);
         return new ResponseEntity<>(baseResponse,HttpStatus.OK);
     }
+
+    @PutMapping("users/{userId}")
+    public ResponseEntity<?> unlockAccount(
+            @PathVariable long userId
+    ){
+        boolean isSuccess = userService.unlockStatus(userId);
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setData(isSuccess);
+        baseResponse.setMessage("Khoá và mở khoá user" + userId);
+        baseResponse.setStatusCode(200);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+    }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ra.project_5.model.dto.response.BaseResponse;
+import ra.project_5.model.dto.response.ProductResponse;
 import ra.project_5.model.entity.Category;
 import ra.project_5.service.CategoryService;
 
@@ -19,8 +21,11 @@ public class PermitAllCatalogController {
     private CategoryService categoryService;
     @GetMapping("catalog")
     public ResponseEntity<?>findCategoryStatusIsTrue(){
-        // return new ResponseEntity<>(categoryService.findAllByStatusIsTrue(), HttpStatus.OK);
+        BaseResponse baseResponse = new BaseResponse();
         List<Category> categoryList = categoryService.findAllByStatusIsTrue();
-        return ResponseEntity.ok(categoryList);
+        baseResponse.setStatusCode(200);
+        baseResponse.setMessage("Danh sách danh mục được bán: ");
+        baseResponse.setData(categoryList);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 }

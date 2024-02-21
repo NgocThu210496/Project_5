@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ra.project_5.model.dto.request.OrderRequest;
 import ra.project_5.model.dto.request.ShoppingCartRequest;
 import ra.project_5.model.dto.request.ShoppingCartUpdateQuantityRequest;
 import ra.project_5.model.dto.response.BaseResponse;
@@ -26,13 +27,13 @@ public class UserControllerShoppingCart {
             @PathVariable long userId,
             @RequestBody ShoppingCartRequest shoppingCartRequest
             ){
+        ShoppingCartResponse cartResponse = shoppingCartService.addToCart(userId, shoppingCartRequest);
+        BaseResponse successResponse = new BaseResponse();
+        successResponse.setStatusCode(HttpStatus.OK.value());
+        successResponse.setMessage("Thêm sản phẩm vào giỏ hàng thành công");
+        successResponse.setData(cartResponse);
 
-        BaseResponse baseResponse = new BaseResponse();
-        ShoppingCartResponse cartResponse = shoppingCartService.addToCart(userId,shoppingCartRequest);
-        baseResponse.setStatusCode(200);
-        baseResponse.setMessage("Thêm sản phẩm vào giỏ hàng");
-        baseResponse.setData(cartResponse);
-        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        return ResponseEntity.ok(successResponse);
     }
 
     @GetMapping("shopping-cart/{userId}")
@@ -68,5 +69,35 @@ public class UserControllerShoppingCart {
         baseResponse.setData(response);
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("shopping-cart/{userId}/delete/{shoppingCartId}")
+    public ResponseEntity<?> deleteByUserIdAndCartId(
+            @PathVariable long userId,
+            @PathVariable int shoppingCartId) {
+        BaseResponse baseResponse = new BaseResponse();
+        boolean isSuccess = shoppingCartService.deleteByCartId(userId,shoppingCartId);
+        baseResponse.setStatusCode(200);
+        baseResponse.setMessage("Xoá thành công 1 sản phẩm trong giỏ hàng");
+        baseResponse.setData(isSuccess);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("shopping-cart/{userId}/clear")
+    public ResponseEntity<?>deleteAllProductInCart(@PathVariable long userId){
+        /*BaseResponse baseResponse = new BaseResponse();
+        boolean isSuccess = shoppingCartService.deleteAllProductInCart(userId);
+        baseResponse.setStatusCode(200);
+        baseResponse.setMessage("Đã xoá tất cả sản phẩm trong giỏ hàng");
+        baseResponse.setData(isSuccess);
+        return new ResponseEntity<>(baseResponse,HttpStatus.OK);*/
+        shoppingCartService.deleteAllProductInCart(userId);
+        return ResponseEntity.ok("Đã xoá tất cả sản phẩm trong giỏ hàng của userId " + userId);
+    }
+
+    @PostMapping("shopping-cart/{userId}/check-out")
+    public ResponseEntity<?>checkOut(@PathVariable long userId, @RequestBody OrderRequest orderRequest){
+        shoppingCartService.checkOut(userId,orderRequest);
+        return ResponseEntity.ok("Order success !");
     }
 }

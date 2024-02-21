@@ -35,7 +35,7 @@ public class ProductAdminController {
         if (productResponse != null) {
             baseResponse.setStatusCode(HttpStatus.CREATED.value()); // Sử dụng mã trạng thái HTTP 201 Created
             baseResponse.setMessage("Thêm mới sản phẩm thành công!");
-            System.out.println(productService.findById(productResponse.getProductId()).getSku());
+           // System.out.println(productService.findById(productResponse.getProductId()).getSku());
             baseResponse.setData(productResponse);
             return new ResponseEntity<>(baseResponse, HttpStatus.CREATED);
         } else {
@@ -108,9 +108,16 @@ public class ProductAdminController {
             return new ResponseEntity<>(baseResponse, HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping("products/{productId}")
+    @PutMapping("products/{productId}/status")
     public ResponseEntity<?>deleteProduct(@PathVariable long productId){
         BaseResponse baseResponse = new BaseResponse();
+        ProductResponse isDeleted = productService.deleteProduct(productId);
+        baseResponse.setStatusCode(200);
+        baseResponse.setData(isDeleted);
+        baseResponse.setMessage("Xoá sản phẩm (Đổi trạng thái)");
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+
+        /*BaseResponse baseResponse = new BaseResponse();
         ProductResponse isDeleted = productService.deleteProduct(productId);
 
         if (isDeleted != null) {
@@ -120,7 +127,7 @@ public class ProductAdminController {
             return ResponseEntity.ok(baseResponse);
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm với ID: " + productId);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm với ID: " + productId);*/
 
     }
 }

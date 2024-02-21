@@ -26,6 +26,7 @@ public interface UserService {
     UserResponse addRole(User user);
     List<UserResponse>findByFullNameContaining(String name);
     User findUserById(long id);
+    boolean unlockStatus(long userId);
 
 
 

@@ -5,6 +5,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import ra.project_5.model.dto.request.ProductRequestAdmin;
 import ra.project_5.model.dto.request.ProductRequestPermitAll;
+import ra.project_5.model.dto.response.ProductPermitResponse;
 import ra.project_5.model.dto.response.ProductResponse;
 import ra.project_5.model.dto.response.ProductStatusTrueResponse;
 import ra.project_5.model.entity.Product;
@@ -43,7 +44,7 @@ public class ProductMapper implements MapperGeneric<Product, ProductRequestPermi
         return ProductResponse.builder()
                 .productId(product.getProductId())
                 .categoryName(product.getCategory().getCategoryId())
-                .sku(product.getSku())
+               // .sku(product.getSku())
                 .image(product.getImage())
                 .productName(product.getProductName())
                 .description(product.getDescription())
@@ -62,6 +63,7 @@ public class ProductMapper implements MapperGeneric<Product, ProductRequestPermi
                 .productName(productRequestAdmin.getProductName())
                 .category(categoriesRepository.findById(productRequestAdmin.getCategoryId()).get())
                 .description(productRequestAdmin.getDescription())
+               // .sku(productRequestAdmin.get)
                 .unitPrice(productRequestAdmin.getUnitPrice())
                 .quantity(productRequestAdmin.getQuantity())
                 .image(productRequestAdmin.getImage())
@@ -74,7 +76,7 @@ public class ProductMapper implements MapperGeneric<Product, ProductRequestPermi
         return ProductResponse.builder()
                 .productId(product.getProductId())
                 .categoryName(product.getCategory().getCategoryId())
-                .sku(product.getSku())
+               // .sku(product.getSku())
                 .productName(product.getProductName())
                 .image(product.getImage())
                 .description(product.getDescription())
@@ -91,6 +93,20 @@ public class ProductMapper implements MapperGeneric<Product, ProductRequestPermi
                 .productName(product.getProductName())
                 .description(product.getDescription())
                 .status(product.isStatus())
+                .build();
+    }
+
+    public ProductPermitResponse EntityToResponsePermit1(Product productEntity) {
+        return ProductPermitResponse.builder()
+                .productId(productEntity.getProductId())
+                .categoryName(productEntity.getCategory().getCategoryName())
+                .sku(productEntity.getSku())
+                .productName(productEntity.getProductName())
+                .description(productEntity.getDescription())
+                .unitPrice(productEntity.getUnitPrice())
+                .quantity(productEntity.getQuantity())
+                .status(productEntity.isStatus())
+                .image(productEntity.getImage())
                 .build();
     }
 }

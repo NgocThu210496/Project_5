@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ra.project_5.advice.exception.CustomException;
 import ra.project_5.mapper.ProductMapper;
 import ra.project_5.model.dto.request.ProductRequestAdmin;
+import ra.project_5.model.dto.response.ProductPermitResponse;
 import ra.project_5.model.dto.response.ProductResponse;
 import ra.project_5.model.dto.response.ProductStatusTrueResponse;
 import ra.project_5.model.entity.Category;
@@ -97,13 +98,14 @@ public class ProductServiceImp implements ProductService {
         }
     }
 
+
     @Override
-    public List<ProductResponse> listNewProduct() {
+    public List<ProductPermitResponse> listNewProduct() {
         try {
             List<Product> list = productRepository.findTop5ByStatusIsTrueOrderByCreatedDesc11();
-            return list.stream().map(product ->productMapper.EntityToResponsePermit(product)).collect(Collectors.toList());
+            return list.stream().map(product ->productMapper.EntityToResponsePermit1(product)).collect(Collectors.toList());
         } catch (Exception e){
-            throw new ClassCastException(e.getMessage());
+            throw new CustomException(e.getMessage());
         }
     }
 
@@ -169,12 +171,23 @@ public class ProductServiceImp implements ProductService {
     @Override
     public ProductResponse deleteProduct(long productId) {
         Optional<Product>productOptional = productRepository.findById(productId);
-        if(productOptional.isPresent()){
+        /*if(productOptional.isPresent()){
             productRepository.deleteById(productId);
             return productMapper.mapperEntityToResponse(productOptional.get());
         }else {
             return null;
+        }*/
+        if(productOptional.isPresent()){
+            Product updateStatus= productOptional.get();
+            if(updateStatus.isStatus()==true){
+                updateStatus.setStatus(false);
+            }else {
+                updateStatus.setStatus(true);
+            }
+            productRepository.save(updateStatus);
+            return productMapper.mapperEntityToResponse(productOptional.get());
         }
+        return null;
 
     }
 
@@ -196,7 +209,8 @@ public class ProductServiceImp implements ProductService {
         }
     }
 
-    /*@Override
+
+/*  @Override
     public List<ProductResponse> findNewProductsInLastTwoWeeks(Date starDate, Date endDate) {
         List<Product> productList = productRepository.findNewProductsInLastTwoWeeks(starDate,endDate);
         List<ProductResponse> productResponseList = productList.stream()

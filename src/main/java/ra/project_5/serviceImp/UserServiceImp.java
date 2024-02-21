@@ -60,10 +60,10 @@ public class UserServiceImp implements UserService {
                     setRoles.add(rolesRepository.findByName(ERoles.ROLE_ADMIN)
                             .orElseThrow(() -> new RuntimeException("Không tồn tại quyền admin")));
                     break;
-                case "moderator":
+                /*case "moderator":
                     setRoles.add(rolesRepository.findByName(ERoles.ROLE_MODERATOR)
                             .orElseThrow(() -> new RuntimeException("Không tồn tại quyền admin")));
-                    break;
+                    break;*/
                 case "user":
                 default:
                     setRoles.add(rolesRepository.findByName(ERoles.ROLE_USER)
@@ -219,6 +219,23 @@ public class UserServiceImp implements UserService {
         }
     }
 
+    @Override
+    public boolean unlockStatus(long userId) {
+        User user = findUserById(userId);
+        if (user.isStatus()) {
+            user.setStatus(false);
+        } else {
+            user.setStatus(true);
+        }
+        usersRepository.save(user);
+        return usersRepository.save(user).isStatus();
+    }
 
 
+    public Roles findRoleOfUser(long userId,long roleId) {
+        User user= findUserById(userId);
+        return user.getListRoles().stream()
+                .filter(rolesEntity -> roleId==rolesEntity.getId())
+                .findAny().orElse(null);
+    }
 }

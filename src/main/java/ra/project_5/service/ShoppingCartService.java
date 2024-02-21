@@ -1,5 +1,6 @@
 package ra.project_5.service;
 
+import ra.project_5.model.dto.request.OrderRequest;
 import ra.project_5.model.dto.request.ShoppingCartRequest;
 import ra.project_5.model.dto.request.ShoppingCartUpdateQuantityRequest;
 import ra.project_5.model.dto.response.ShoppingCartResponse;
@@ -14,4 +15,8 @@ public interface ShoppingCartService {
     ShoppingCard findByUser_IdAndProduct_ProductId(long userId, long productId);
     List<ShoppingCartResponse>listProductInCart(long userId);
     ShoppingCartResponse update(long userId, int cartItemId, ShoppingCartUpdateQuantityRequest cartRequest);
+    boolean deleteByCartId(long userId, int cartId);
+    void deleteAllProductInCart(long userId);
+    boolean checkOut(long userId, OrderRequest orderRequest);
+
 }

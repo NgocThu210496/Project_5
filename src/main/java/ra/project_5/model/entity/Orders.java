@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -28,10 +29,12 @@ public class Orders {
     private long orderId;
 
     @Column(name = "serial_number", columnDefinition = "varchar(100)")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String serialNumber;
 
     @Column(name = "order_at", columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime orderAt;
 
@@ -55,11 +58,13 @@ public class Orders {
     private String receivePhone;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date created;
 
     @Column(name = "received_at")
+    @CreationTimestamp
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate received;
