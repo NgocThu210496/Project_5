@@ -102,7 +102,7 @@ public class AdminControllerCatalog {
         }
     }
 
-    @DeleteMapping("categories/{categoryId}")
+    @PutMapping("categories/{categoryId}/status")
     public ResponseEntity<?>DeleteCategory(@PathVariable long categoryId){
         BaseResponse baseResponse = new BaseResponse();
         boolean isSuccess = categoryService.delete(categoryId);

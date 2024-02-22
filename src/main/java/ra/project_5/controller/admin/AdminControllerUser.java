@@ -117,6 +117,7 @@ public class AdminControllerUser {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setData(userResponseList);
         baseResponse.setStatusCode(200);
+        baseResponse.setMessage("Tìm kiếm người dùng theo tên " + userName);
         return new ResponseEntity<>(baseResponse,HttpStatus.OK);
     }
 

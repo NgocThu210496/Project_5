@@ -150,6 +150,8 @@ public class ProductServiceImp implements ProductService {
             product.setDescription(productRequestAdmin.getDescription());
             product.setImage(productRequestAdmin.getImage());
             product.setCategory(category);
+            product.setUnitPrice(productRequestAdmin.getUnitPrice());
+            product.setQuantity(productRequestAdmin.getQuantity());
             return productMapper.mapperEntityToResponse(productRepository.save(product));
         } else {
             return null;

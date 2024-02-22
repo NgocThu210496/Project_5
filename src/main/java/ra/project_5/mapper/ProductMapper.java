@@ -34,7 +34,7 @@ public class ProductMapper implements MapperGeneric<Product, ProductRequestPermi
                 .quantity(productRequestPermitAll.getQuantity())
                 .image(productRequestPermitAll.getImage())
                 .created(new Date())
-                .updated(new Date())
+             //   .updated(new Date())
                 .status(true)
                 .build();
     }
@@ -68,7 +68,7 @@ public class ProductMapper implements MapperGeneric<Product, ProductRequestPermi
                 .quantity(productRequestAdmin.getQuantity())
                 .image(productRequestAdmin.getImage())
                 .created(new Date())
-                .updated(new Date())
+                //.updated(new Date())
                 .status(true)
                 .build();
     }

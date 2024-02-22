@@ -66,8 +66,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(cus -> cus.requestMatchers("/api/v1/public/**").permitAll() // công khai: duong dan nay user hay ad deu vao dc
 //                        .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/moderator/**").hasAnyRole("ADMIN", "MODERATOR")
-                                .requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "MODERATOR", "USER")
+                              //  .requestMatchers("/api/v1/moderator/**").hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "USER")
                                 .anyRequest().authenticated()
                 );
         http.authenticationProvider(authenticationProvider());

@@ -8,6 +8,7 @@ import ra.project_5.mapper.MapperOrderDetail;
 import ra.project_5.model.dto.response.OrderDetailResponse;
 import ra.project_5.model.dto.response.OrderHistoryResponse;
 import ra.project_5.model.dto.response.OrderResponse;
+import ra.project_5.model.dto.response.SaleResponse;
 import ra.project_5.model.entity.EStatus;
 import ra.project_5.model.entity.OrderDetail;
 import ra.project_5.model.entity.Orders;
@@ -144,6 +145,18 @@ public class OrderServiceImp implements OrderService {
                 .collect(Collectors.toList());
         return odr;
     }
+
+/*    @Override
+    public SaleResponse dashBoardSaleByTime(Date from, Date to) {
+        try {
+            SaleResponse response = new SaleResponse();
+            SaleResponse revenue = orderRepository.revenueByTime(from,to);
+            response.setTotal(revenue.getTotal());
+            return response;
+        } catch (Exception e){
+            throw new CustomException(e.getMessage());
+        }
+    }*/
 
     @Override
     public BigDecimal dashBoardSaleByTime(Date from, Date to) {

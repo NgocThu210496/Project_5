@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ra.project_5.model.dto.request.SaleRequest;
 import ra.project_5.model.dto.response.BaseResponse;
 import ra.project_5.model.dto.response.DashboardSaleByCatalogResponse;
+import ra.project_5.model.dto.response.SaleResponse;
 import ra.project_5.repository.ProductRepository;
 import ra.project_5.service.OrderService;
 import ra.project_5.service.ProductService;
@@ -26,7 +27,12 @@ public class AdminControllerDashboard {
     private ProductRepository productRepository;
     @GetMapping ("dash-board/sales")
     public ResponseEntity<?> dashBoardSaleByTime(@RequestBody SaleRequest saleRequest) {
-        return ResponseEntity.ok(orderService.dashBoardSaleByTime(saleRequest.getFrom(),saleRequest.getTo()));
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setStatusCode(200);
+        baseResponse.setMessage("Doanh thu bán hàng");
+        baseResponse.setData(orderService.dashBoardSaleByTime(saleRequest.getFrom(),saleRequest.getTo()));
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+       // return ResponseEntity.ok(orderService.dashBoardSaleByTime(saleRequest.getFrom(),saleRequest.getTo()));
     }
 
     @GetMapping("dash-board/sales/best-seller-products")

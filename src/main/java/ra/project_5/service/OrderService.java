@@ -4,6 +4,7 @@ import org.hibernate.query.Order;
 import ra.project_5.model.dto.response.OrderDetailResponse;
 import ra.project_5.model.dto.response.OrderHistoryResponse;
 import ra.project_5.model.dto.response.OrderResponse;
+import ra.project_5.model.dto.response.SaleResponse;
 import ra.project_5.model.entity.Orders;
 
 import javax.xml.crypto.Data;
@@ -22,4 +23,5 @@ public interface OrderService {
     Orders findById(long oderId);
     List<OrderDetailResponse> getDetailOrderByOrderId(long orderId);
     BigDecimal dashBoardSaleByTime(Date from,Date to);
+   // SaleResponse dashBoardSaleByTime(Date from,Date to);
 }

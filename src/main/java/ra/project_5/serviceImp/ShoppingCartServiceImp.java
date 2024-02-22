@@ -148,6 +148,9 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         for (Integer shoppingCartId:orderRequest.getListCartId()) {
             ShoppingCard shoppingCard = shoppingCartRepository.findById(shoppingCartId).orElseThrow(()->new CustomException("shopping cart id not fond"));
             shoppingCardList.add(shoppingCard);
+            if(shoppingCard.getQuantity()>shoppingCard.getProduct().getQuantity()){
+                throw new RuntimeException("Số lượng đặt hàng vượt quá số lượng tồn kho");
+            }
         }
         double sum = 0;
         for (ShoppingCard shoppingCard:shoppingCardList) {
@@ -191,28 +194,6 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
             product.setQuantity(product.getQuantity() - shoppingCard.getQuantity());
             productRepository.save(product);
         }
-
-        /*Address address = addressRepository.findByUserAddr_Id(userId).orElseThrow();
-        List<ShoppingCard>shoppingCardList = shoppingCartRepository.findByUser_Id(userId);
-        Orders orders= new Orders();
-        orders.setUserOder(User.builder().id(userId).build());
-        orders.setReceiveName(address.getReceiveName());
-        orders.setReceiveAddress(address.getFullAddress());
-        orders.setReceivePhone(address.getPhone());
-        Orders ordersSave = orderRepository.save(orders);
-        List<OrderDetail>orderDetailList= new ArrayList<>();
-        for (ShoppingCard shoppingCart:shoppingCardList) {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrdersEntity(Orders.builder().orderId(ordersSave.getOrderId()).build());
-            orderDetail.setProductEntity(Product.builder().productId(shoppingCart.getProduct().getProductId()).build());
-            orderDetail.setName(shoppingCart.getProduct().getProductName());
-            orderDetail.setQuantity(shoppingCart.getQuantity());
-            orderDetail.setPrice(shoppingCart.getProduct().getUnitPrice());
-            orderDetailList.add(orderDetail);
-        }
-        orderDetailRepository.saveAll(orderDetailList);
-        shoppingCartRepository.deleteAll(shoppingCardList);
-        return true;*/
         return true;
     }
 

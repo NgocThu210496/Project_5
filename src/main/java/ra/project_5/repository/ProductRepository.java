@@ -30,8 +30,8 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             "FROM OrderDetail od " +
             "JOIN od.ordersEntity o " +
             "WHERE MONTH(o.created) = MONTH(CURRENT_DATE) AND YEAR(o.created) = YEAR(CURRENT_DATE) and o.status = 'SUCCESS'" +
-            "GROUP BY od.productEntity.productId " +
-            "ORDER BY totalQuantity DESC limit 3")
+            "GROUP BY od.productEntity " +
+            "ORDER BY totalQuantity DESC")
     List<Object[]> findBestSellingProducts();
 
     @Query("SELECT c.categoryName, SUM(od.price) as totalQuantity " +
@@ -42,6 +42,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             "GROUP BY c.categoryName " +
             "ORDER BY totalQuantity DESC")
     List<Object[]>findSaleCategory();
+    //mỗi phần của List là 1 mảng, trong mỗi phần tử của mảng này thì kiểu dữ liệu gì cũn đc
 
 
 
